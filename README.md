@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/hero.svg" alt="cdn" width="880"></p>
+
 # cdn
 Lux CDN, static cached on edge ecommerce and image, video, and 3D assets.
 
