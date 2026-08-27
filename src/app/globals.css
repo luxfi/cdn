@@ -1,0 +1,14 @@
+/* This site is dark, always — the markup used to say so with `bg-black
+   text-white` on <body>, which needed a utility engine to mean anything. The
+   theme already states both as tokens. */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100%;
+  /* One row at 1fr so the page fills the viewport, and a column floored at 0 so
+     a long line wraps instead of pushing the layout past the screen. In grid the
+     PARENT states the fill, rather than each child asking with `grow`. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr;
+}
