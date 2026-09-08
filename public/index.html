@@ -1,0 +1,36 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lux CDN</title>
+<style>
+  :root { color-scheme: dark }
+  body {
+    margin: 0; min-height: 100vh;
+    display: grid; place-content: center; justify-items: start;
+    gap: 1.25rem; padding: 2rem;
+    background: #000; color: #fff;
+    font: 15px/1.65 ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  }
+  img { width: 56px; height: 56px }
+  h1 { margin: 0; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.01em }
+  p  { margin: 0; max-width: 46rem; color: #a1a1a1 }
+  pre { margin: 0; color: #d4d4d4; font: 13px/1.9 ui-monospace, SFMono-Regular, Menlo, monospace }
+  a { color: inherit }
+</style>
+
+<!-- Its own first object: this page's mark is served by the host it describes. -->
+<img src="/exchange/icon-svg/lux.svg" alt="Lux">
+
+<h1>Lux CDN</h1>
+
+<p>Marks, artwork and media for the Lux estate, cached at the edge. Every file is
+addressed by its path in <a href="https://github.com/luxfi/cdn">luxfi/cdn</a>.</p>
+
+<pre>https://cdn.lux.cloud/exchange/icon-svg/leth.svg
+https://cdn.lux.cloud/exchange/icon-png/lux.png
+https://cdn.lux.cloud/bridge/networks/ethereum_mainnet.png</pre>
+
+<p><code>cdn.lux.network</code> serves the same files under the older name; shipped
+clients dial it and cannot be repointed, so it stays. New references use
+<code>cdn.lux.cloud</code>. There is no listing and no upload — a path that names
+no file answers 404.</p>

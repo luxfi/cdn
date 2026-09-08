@@ -1,31 +1,28 @@
 <p align="center"><img src=".github/hero.svg" alt="cdn" width="880"></p>
 
 # cdn
-Lux CDN, static cached on edge ecommerce and image, video, and 3D assets.
 
-## To run locally
+The Lux estate's mark library: exchange token icons, bridge currency and network
+marks, brand artwork, product media. `public/` is the whole of it — 640 files —
+and every one is addressed by its path.
 
-Install `pnpm` [like so](https://pnpm.io/installation)
+    https://cdn.lux.cloud/exchange/icon-svg/leth.svg
+    https://cdn.lux.cloud/exchange/icon-png/lux.png
+    https://cdn.lux.cloud/bridge/networks/ethereum_mainnet.png
 
-The usual scripts for a Next site, using `pnpm`
-```
-pnpm install
-pnpm dev
-```
+`cdn.lux.network` serves the same files under the older name. Shipped clients —
+the wallets, Safe's chain list, the ad server's VAST — dial it from machines we
+cannot edit, so it stays. New references use `cdn.lux.cloud`.
 
-Since "pnpm" is a finger twister, many people alias it to "pn". For example, with `bash`, put `alias pn='pnpm'` in `.bashrc`.
+## Adding a file
 
-## Features
+Commit it under `public/` and merge to `main`. `.github/workflows/site.yml`
+publishes the tree to the Sites plane, and hanzoai/ingress serves it at both
+hosts within the minute.
 
-- Next.js 14.1
-- Radix UI Primitives
-- Tailwind CSS
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
+A publish reconciles: the manifest is what the host then holds, so a file
+deleted here is deleted there. Nothing is versioned by URL — a path is a stable
+name whose bytes may be corrected. The edge caches a file for a day.
 
-## Built with @hanzo/ui
-
-- A React using Next 14.1, Tailwind and Radix
-- Pulls content from static json (in `/src/content`)
-- Lives [on GitHub here](https://github.com/hanzoai/ui)
+There is no listing and no upload. A path that names no file answers 404, which
+is what lets a caller tell a missing mark from a wrong one.

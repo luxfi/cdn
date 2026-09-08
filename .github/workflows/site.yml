@@ -1,0 +1,54 @@
+name: site
+# The cdn is a directory of files, and public/ is the whole of it.
+#
+# hanzoai/ingress serves the two hosts straight off s3://hanzo-sites/lux/lux-cdn
+# (luxfi/universe, deploy/lux-cdn/lux-cdn.yaml). So this lane checks the tree out
+# and hands it to the Sites plane. There is no build: `next build` with
+# output: 'export' copied public/ into out/ and added one page that said "coming
+# soon", which is a toolchain standing between a file and its URL.
+#
+# .github/workflows, because github.com is canonical for this repo and it is the
+# only path github.com reads. Eight of universe's pipelines sat in
+# .hanzo/workflows dispatching nothing at all until 45e7ceb moved them here.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # Never cancel a publish in flight. The plane writes into the prefix the edge
+  # already serves, so a half-written release is a half-broken host.
+  group: site-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  site:
+    # What evo advertises. It also answers lux-build-linux-amd64; this is the
+    # spelling universe standardized on, so the fleet asks one way.
+    runs-on: [lux-build-amd64]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      # Nothing between the checkout and the publish, and nothing re-checked
+      # here. bin/site refuses an empty directory, measures the completion
+      # manifest against the edge limit before it sends a byte, and downloads
+      # the root back after the flip. A copy of those checks in this file is a
+      # second copy that drifts from the one that runs.
+      - uses: hanzoai/ci/.github/actions/site@v1
+        with:
+          # Not `cdn`: that label is on cloud's reserved list so no one can
+          # publish a site at cdn.<apex> and shadow real infrastructure. The
+          # slug is the address -- a different one publishes to a prefix
+          # nothing routes to and reads as a successful release.
+          slug: lux-cdn
+          dir: public
+        env:
+          # The deploy key comes from KMS at the LUX scope root — the prefix is
+          # derived server-side as <org>/<slug>, so a hanzo-org token publishes
+          # this to hanzo/lux-cdn, which nothing serves.
+          KMS_CLIENT_ID: ${{ secrets.KMS_CLIENT_ID }}
+          KMS_CLIENT_SECRET: ${{ secrets.KMS_CLIENT_SECRET }}
