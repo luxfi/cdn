@@ -28,7 +28,7 @@ jobs:
   site:
     # What evo advertises. It also answers lux-build-linux-amd64; this is the
     # spelling universe standardized on, so the fleet asks one way.
-    runs-on: [lux-build-amd64]
+    runs-on: [linux-amd64]
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
